@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FWZCuts – Meer dan een knipbeurt</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --black:#080c10;
+  --dark:#0d1117;
+  --card:#111620;
+  --blue:#1a4fd6;
+  --icy:#4db8ff;
+  --white:#f4f6fa;
+  --muted:rgba(244,246,250,0.45);
+  --border:rgba(77,184,255,0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:'Poppins',sans-serif;overflow-x:hidden}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:var(--blue);border-radius:2px}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 3rem;background:rgba(8,12,16,0.85);backdrop-filter:blur(16px);border-bottom:0.5px solid var(--border)}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:0.12em;color:var(--icy)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover{color:var(--icy)}
+.nav-cta{background:var(--blue);color:var(--white);padding:0.6rem 1.6rem;border:none;font-family:'Poppins',sans-serif;font-size:0.78rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:background 0.2s,transform 0.15s}
+.nav-cta:hover{background:var(--icy);color:var(--black);transform:translateY(-1px)}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:8rem 3rem 4rem;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 80% 50%,rgba(26,79,214,0.18) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 10% 80%,rgba(77,184,255,0.08) 0%,transparent 60%);pointer-events:none}
+.hero-line{position:absolute;top:0;right:20%;width:0.5px;height:100%;background:linear-gradient(to bottom,transparent,rgba(77,184,255,0.25),transparent);pointer-events:none}
+.hero-eyebrow{font-size:0.72rem;letter-spacing:0.35em;text-transform:uppercase;color:var(--icy);margin-bottom:1.5rem;opacity:0;animation:fadeUp 0.7s 0.2s forwards}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,10vw,8.5rem);line-height:0.92;letter-spacing:0.04em;color:var(--white);margin-bottom:0.5rem;opacity:0;animation:fadeUp 0.7s 0.35s forwards}
+.hero-title .icy{color:var(--icy)}
+.hero-sub{font-size:1rem;font-weight:300;color:var(--muted);max-width:520px;line-height:1.8;margin-bottom:2.5rem;opacity:0;animation:fadeUp 0.7s 0.5s forwards}
+.hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:fadeUp 0.7s 0.65s forwards}
+.btn-primary{display:inline-flex;align-items:center;gap:0.5rem;background:var(--blue);color:var(--white);padding:0.9rem 2rem;border:none;font-family:'Poppins',sans-serif;font-size:0.85rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;border-radius:2px;text-decoration:none;transition:background 0.2s,transform 0.15s,box-shadow 0.2s}
+.btn-primary:hover{background:var(--icy);color:var(--black);transform:translateY(-2px);box-shadow:0 8px 24px rgba(77,184,255,0.3)}
+.btn-outline{display:inline-flex;align-items:center;gap:0.5rem;background:transparent;color:var(--white);padding:0.9rem 2rem;border:0.5px solid rgba(244,246,250,0.25);font-family:'Poppins',sans-serif;font-size:0.85rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;border-radius:2px;text-decoration:none;transition:border-color 0.2s,color 0.2s}
+.btn-outline:hover{border-color:var(--icy);color:var(--icy)}
+.hero-location{position:absolute;bottom:2.5rem;left:3rem;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(244,246,250,0.3);display:flex;align-items:center;gap:0.5rem}
+.hero-location::before{content:'';width:24px;height:0.5px;background:rgba(244,246,250,0.2);display:inline-block}
+
+/* ── VIDEO PLACEHOLDER ── */
+.video-section{padding:0 3rem 6rem;position:relative}
+.video-wrap{position:relative;width:100%;aspect-ratio:16/7;background:var(--card);border-radius:4px;overflow:hidden;border:0.5px solid var(--border);display:flex;align-items:center;justify-content:center}
+.video-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(8,12,16,0.7) 0%,transparent 50%);pointer-events:none}
+.video-placeholder-text{text-align:center;z-index:2}
+.video-placeholder-text p{font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-top:0.8rem}
+.play-btn{width:72px;height:72px;border-radius:50%;background:var(--blue);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s,transform 0.15s;margin:0 auto}
+.play-btn:hover{background:var(--icy);transform:scale(1.08)}
+.play-btn svg{width:24px;height:24px;fill:var(--white)}
+.video-label{position:absolute;bottom:1.5rem;left:2rem;font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);z-index:2}
+
+/* ── SECTIONS SHARED ── */
+section{padding:6rem 3rem}
+.section-eyebrow{font-size:0.7rem;letter-spacing:0.35em;text-transform:uppercase;color:var(--icy);margin-bottom:1rem}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,5vw,4.5rem);line-height:1;letter-spacing:0.04em;color:var(--white);margin-bottom:2rem}
+.section-title em{color:var(--icy);font-style:normal}
+.divider{width:40px;height:2px;background:var(--blue);margin-bottom:2.5rem}
+
+/* ── OVER MIJ ── */
+.about{background:var(--dark);display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.about-text p{font-size:0.95rem;font-weight:300;color:var(--muted);line-height:1.9;margin-bottom:1.2rem}
+.about-text p strong{color:var(--white);font-weight:500}
+.about-visual{position:relative}
+.about-card{background:var(--card);border:0.5px solid var(--border);border-radius:4px;padding:2.5rem;position:relative;overflow:hidden}
+.about-card::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:rgba(26,79,214,0.15);pointer-events:none}
+.about-name{font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:0.08em;color:var(--icy);line-height:1}
+.about-role{font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-top:0.3rem;margin-bottom:2rem}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;padding-top:2rem;border-top:0.5px solid var(--border)}
+.astat-num{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--white);line-height:1}
+.astat-label{font-size:0.72rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem}
+
+/* ── DIENSTEN ── */
+.services{background:var(--black)}
+.services-intro{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;margin-bottom:3rem}
+.services-note{font-size:0.85rem;color:var(--muted);line-height:1.8;font-weight:300;padding-top:3.5rem}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--border)}
+.service-card{background:var(--black);padding:2.5rem 2rem;border:none;text-align:left;cursor:default;position:relative;overflow:hidden;transition:background 0.2s}
+.service-card:hover{background:var(--card)}
+.service-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--blue);transform:scaleX(0);transition:transform 0.3s;transform-origin:left}
+.service-card:hover::after{transform:scaleX(1)}
+.sc-icon{font-size:1.4rem;margin-bottom:1.2rem;display:block}
+.sc-name{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:0.05em;color:var(--white);margin-bottom:0.5rem}
+.sc-desc{font-size:0.82rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem;font-weight:300}
+.sc-price{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--icy);letter-spacing:0.05em}
+.sc-badge{display:inline-block;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;background:rgba(26,79,214,0.2);color:var(--icy);border:0.5px solid rgba(77,184,255,0.3);padding:0.2rem 0.7rem;border-radius:20px;margin-top:0.5rem}
+
+.future-strip{background:var(--card);border:0.5px solid var(--border);border-radius:4px;padding:2rem 2.5rem;margin-top:2rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+.future-strip .fs-icon{font-size:2rem;flex-shrink:0}
+.fs-text .fs-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.06em;color:var(--white)}
+.fs-text .fs-sub{font-size:0.8rem;color:var(--muted);margin-top:0.2rem;font-weight:300}
+
+/* ── WAAROM ── */
+.waarom{background:var(--dark)}
+.waarom-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-top:3rem}
+.w-card{background:var(--card);border:0.5px solid var(--border);border-radius:4px;padding:2rem 1.5rem;transition:border-color 0.2s,transform 0.2s}
+.w-card:hover{border-color:rgba(77,184,255,0.4);transform:translateY(-4px)}
+.w-icon{font-size:1.5rem;margin-bottom:1rem;display:block}
+.w-title{font-weight:600;font-size:0.9rem;color:var(--white);margin-bottom:0.5rem}
+.w-desc{font-size:0.8rem;color:var(--muted);line-height:1.7;font-weight:300}
+
+/* ── PORTFOLIO ── */
+.portfolio{background:var(--black)}
+.portfolio-intro{max-width:560px;margin-bottom:3rem}
+.portfolio-intro p{font-size:0.9rem;color:var(--muted);line-height:1.8;font-weight:300;margin-top:1rem}
+.portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.port-item{aspect-ratio:3/4;background:var(--card);border:0.5px solid var(--border);border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;cursor:pointer;transition:transform 0.2s}
+.port-item:hover{transform:scale(1.02)}
+.port-item:first-child{grid-row:span 2;aspect-ratio:auto}
+.port-placeholder{text-align:center}
+.port-placeholder .pp-icon{font-size:2rem;display:block;margin-bottom:0.8rem;opacity:0.3}
+.port-placeholder p{font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted)}
+.port-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,12,16,0.8),transparent);opacity:0;transition:opacity 0.2s;display:flex;align-items:flex-end;padding:1.2rem}
+.port-item:hover .port-overlay{opacity:1}
+.port-label{font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--white)}
+
+/* ── UNIEK / TOEKOMST ── */
+.uniek{background:linear-gradient(135deg,var(--dark) 0%,rgba(26,79,214,0.08) 100%);position:relative;overflow:hidden}
+.uniek::before{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;border-radius:50%;background:rgba(77,184,255,0.04);pointer-events:none}
+.uniek-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.uniek-features{display:flex;flex-direction:column;gap:1.5rem;margin-top:2rem}
+.uf-item{display:flex;gap:1rem;align-items:flex-start}
+.uf-dot{width:6px;height:6px;border-radius:50%;background:var(--icy);flex-shrink:0;margin-top:0.5rem}
+.uf-text .uf-title{font-weight:600;font-size:0.9rem;color:var(--white);margin-bottom:0.2rem}
+.uf-text .uf-desc{font-size:0.8rem;color:var(--muted);line-height:1.6;font-weight:300}
+.uniek-visual{background:var(--card);border:0.5px solid var(--border);border-radius:4px;padding:3rem;text-align:center}
+.uv-big{font-family:'Bebas Neue',sans-serif;font-size:6rem;color:var(--icy);line-height:1;letter-spacing:0.05em;opacity:0.15}
+.uv-label{font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);margin-top:-1rem}
+
+/* ── CONTACT / BOEK ── */
+.contact{background:var(--blue);position:relative;overflow:hidden}
+.contact::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,0.05);pointer-events:none}
+.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.contact h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,6vw,5rem);line-height:0.95;color:var(--white);letter-spacing:0.04em}
+.contact-sub{font-size:0.9rem;color:rgba(244,246,250,0.7);line-height:1.8;margin-top:1rem;font-weight:300}
+.contact-actions{display:flex;flex-direction:column;gap:1rem}
+.contact-btn{display:flex;align-items:center;gap:1rem;padding:1.2rem 1.8rem;border-radius:4px;text-decoration:none;font-family:'Poppins',sans-serif;font-size:0.9rem;font-weight:600;transition:transform 0.15s,box-shadow 0.2s;letter-spacing:0.02em}
+.contact-btn:hover{transform:translateY(-2px)}
+.btn-wa{background:#25d366;color:#fff}
+.btn-wa:hover{box-shadow:0 8px 24px rgba(37,211,102,0.4)}
+.btn-ig{background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:#fff}
+.btn-ig:hover{box-shadow:0 8px 24px rgba(220,39,67,0.4)}
+.cb-icon{font-size:1.2rem}
+.cb-text{display:flex;flex-direction:column;line-height:1.2}
+.cb-label{font-size:0.7rem;font-weight:400;opacity:0.75;text-transform:uppercase;letter-spacing:0.1em}
+.contact-note{font-size:0.75rem;color:rgba(244,246,250,0.55);margin-top:1rem;letter-spacing:0.05em}
+
+/* ── FOOTER ── */
+footer{background:var(--black);padding:3rem;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:0.12em;color:var(--icy)}
+.footer-info{text-align:right}
+.footer-info p{font-size:0.78rem;color:var(--muted);line-height:1.8;letter-spacing:0.05em}
+.footer-copy{font-size:0.7rem;color:rgba(244,246,250,0.2);margin-top:0.5rem}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SCROLL REVEAL ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem}
+  .nav-links{display:none}
+  section,.video-section{padding:4rem 1.5rem}
+  .hero{padding:7rem 1.5rem 3rem}
+  .about,.services-intro,.uniek-grid,.contact-inner{grid-template-columns:1fr}
+  .portfolio-grid{grid-template-columns:1fr 1fr}
+  .port-item:first-child{grid-row:auto}
+  footer{flex-direction:column;align-items:flex-start}
+  .footer-info{text-align:left}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">FWZCuts</div>
+  <ul class="nav-links">
+    <li><a href="#over">Over mij</a></li>
+    <li><a href="#diensten">Diensten</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Boek Nu</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-line"></div>
+  <p class="hero-eyebrow">Haarlem Noord · Premium Barbershop</p>
+  <h1 class="hero-title">Meer dan<br>een <span class="icy">knip</span>beurt</h1>
+  <p class="hero-sub">Bij FWZCuts draait het om meer dan alleen knippen. Ik zorg voor een frisse look die past bij jouw stijl en uitstraling. Persoonlijke aandacht, kwaliteit en een relaxte sfeer staan centraal.</p>
+  <div class="hero-ctas">
+    <a href="https://wa.me/" class="btn-primary">📱 Boek via WhatsApp</a>
+    <a href="#diensten" class="btn-outline">Bekijk diensten</a>
+  </div>
+  <div class="hero-location">Haarlem Noord, Nederland</div>
+</section>
+
+<!-- VIDEO -->
+<div class="video-section">
+  <div class="video-wrap">
+    <div class="video-overlay"></div>
+    <div class="video-placeholder-text">
+      <button class="play-btn">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <p>Jouw video van de knipbeurt hier</p>
+    </div>
+    <div class="video-label">FWZCuts — Behind the chair</div>
+  </div>
+</div>
+
+<!-- OVER MIJ -->
+<section class="about reveal" id="over">
+  <div class="about-left">
+    <p class="section-eyebrow">Over FWZCuts</p>
+    <h2 class="section-title">Wie is<br><em>Fawzan?</em></h2>
+    <div class="divider"></div>
+    <div class="about-text">
+      <p>Ik ben <strong>Fawzan</strong>, een jonge ondernemer en kapper die zich richt op jongeren en mannen. Mijn focus ligt op kwaliteit, detail en persoonlijke aandacht.</p>
+      <p>Ik wil dat elke klant niet alleen tevreden is met zijn kapsel, maar ook met <strong>meer zelfvertrouwen</strong> naar buiten loopt.</p>
+      <p>Geen standaard knipbeurten. Geen haast. Gewoon goed werk, elke keer opnieuw.</p>
+    </div>
+  </div>
+  <div class="about-visual">
+    <div class="about-card">
+      <div class="about-name">Fawzan</div>
+      <div class="about-role">Kapper & Oprichter FWZCuts</div>
+      <div style="font-size:0.82rem;color:var(--muted);line-height:1.7;font-weight:300">📍 Haarlem Noord<br>✂ Specialist in fades & textuur<br>🎯 Focus op jongeren & mannen</div>
+      <div class="about-stats">
+        <div><div class="astat-num">100%</div><div class="astat-label">Persoonlijk</div></div>
+        <div><div class="astat-num">Altijd</div><div class="astat-label">Kwaliteit eerst</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIENSTEN -->
+<section class="services reveal" id="diensten">
+  <div class="services-intro">
+    <div>
+      <p class="section-eyebrow">Diensten & Prijzen</p>
+      <h2 class="section-title">Wat ik<br><em>doe</em></h2>
+      <div class="divider"></div>
+    </div>
+    <p class="services-note">Eerlijke prijzen, geen verrassingen. Elke knipbeurt krijgt dezelfde aandacht en precisie — of je nu voor een simpele cut komt of het complete pakket.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <span class="sc-icon">✂️</span>
+      <div class="sc-name">Knipbeurt</div>
+      <div class="sc-desc">Strak en op maat geknipt. Afgestemd op jouw stijl en gezichtsvorm. Inclusief afwerking.</div>
+      <div class="sc-price">€15</div>
+    </div>
+    <div class="service-card">
+      <span class="sc-icon">👦</span>
+      <div class="sc-name">Kinderen</div>
+      <div class="sc-desc">Voor de kleintjes van 3 tot 11 jaar. Geduldig, zorgvuldig en altijd een goed resultaat.</div>
+      <div class="sc-price">€10</div>
+      <div class="sc-badge">3–11 jaar</div>
+    </div>
+    <div class="service-card">
+      <span class="sc-icon">🪒</span>
+      <div class="sc-name">Haar + Baard</div>
+      <div class="sc-desc">Het complete pakket. Haar geknipt en baard strak bijgewerkt. Eén sessie, compleet resultaat.</div>
+      <div class="sc-price">€17,50</div>
+      <div class="sc-badge">Best value</div>
+    </div>
+  </div>
+  <div class="future-strip">
+    <div class="fs-icon">🚐</div>
+    <div class="fs-text">
+      <div class="fs-title">Coming soon: Knipbus – Housecalls</div>
+      <div class="fs-sub">Premium service aan huis. Ik kom naar jou toe — binnenkort beschikbaar.</div>
+    </div>
+  </div>
+</section>
+
+<!-- WAAROM FWZCUTS -->
+<section class="waarom reveal" id="waarom">
+  <p class="section-eyebrow">Waarom FWZCuts</p>
+  <h2 class="section-title">Wat mij<br><em>anders</em> maakt</h2>
+  <div class="divider"></div>
+  <div class="waarom-grid">
+    <div class="w-card">
+      <span class="w-icon">🎯</span>
+      <div class="w-title">Persoonlijke aandacht</div>
+      <div class="w-desc">Geen nummer in de rij. Ik luister naar wat jij wilt en werk daarop.</div>
+    </div>
+    <div class="w-card">
+      <span class="w-icon">✨</span>
+      <div class="w-title">Geen standaard cuts</div>
+      <div class="w-desc">Elke knipbeurt is uniek. Jouw stijl staat centraal, altijd.</div>
+    </div>
+    <div class="w-card">
+      <span class="w-icon">💰</span>
+      <div class="w-title">Betaalbare prijzen</div>
+      <div class="w-desc">Sterke prijs-kwaliteit verhouding. Kwaliteit hoeft niet duur te zijn.</div>
+    </div>
+    <div class="w-card">
+      <span class="w-icon">😌</span>
+      <div class="w-title">Relaxte sfeer</div>
+      <div class="w-desc">Gezellig, relaxed en zonder stress. Kom gewoon langs en voel je thuis.</div>
+    </div>
+    <div class="w-card">
+      <span class="w-icon">🔝</span>
+      <div class="w-title">Kwaliteit eerst</div>
+      <div class="w-desc">Ik ga pas weg als het goed zit. Geen concessies aan het eindresultaat.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio reveal" id="portfolio">
+  <div class="portfolio-intro">
+    <p class="section-eyebrow">Mijn Werk</p>
+    <h2 class="section-title">Voor & <em>Na</em></h2>
+    <div class="divider"></div>
+    <p>Bekijk mijn resultaten en zie zelf de kwaliteit van FWZCuts. Foto's en video's van echte klanten, echte resultaten.</p>
+  </div>
+  <div class="portfolio-grid">
+    <div class="port-item" style="background:linear-gradient(135deg,#111620,#0d1117)">
+      <div class="port-placeholder"><span class="pp-icon">📸</span><p>Jouw beste foto hier</p></div>
+      <div class="port-overlay"><span class="port-label">Skin Fade</span></div>
+    </div>
+    <div class="port-item">
+      <div class="port-placeholder"><span class="pp-icon">📸</span><p>Voor & na</p></div>
+      <div class="port-overlay"><span class="port-label">Textured Crop</span></div>
+    </div>
+    <div class="port-item">
+      <div class="port-placeholder"><span class="pp-icon">📸</span><p>Voor & na</p></div>
+      <div class="port-overlay"><span class="port-label">Haar + Baard</span></div>
+    </div>
+    <div class="port-item">
+      <div class="port-placeholder"><span class="pp-icon">🎬</span><p>Video knipbeurt</p></div>
+      <div class="port-overlay"><span class="port-label">Behind the Chair</span></div>
+    </div>
+    <div class="port-item">
+      <div class="port-placeholder"><span class="pp-icon">📸</span><p>Voor & na</p></div>
+      <div class="port-overlay"><span class="port-label">Classic Cut</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- UNIEK / TOEKOMST -->
+<section class="uniek reveal" id="toekomst">
+  <div class="uniek-grid">
+    <div>
+      <p class="section-eyebrow">Wat maakt FWZCuts uniek</p>
+      <h2 class="section-title">De<br><em>toekomst</em></h2>
+      <div class="divider"></div>
+      <div class="uniek-features">
+        <div class="uf-item">
+          <div class="uf-dot"></div>
+          <div class="uf-text">
+            <div class="uf-title">🚐 Knipbus – Housecalls</div>
+            <div class="uf-desc">Premium service aan huis. Ik kom met al mijn spullen naar jou toe. Binnenkort beschikbaar in Haarlem en omgeving.</div>
+          </div>
+        </div>
+        <div class="uf-item">
+          <div class="uf-dot"></div>
+          <div class="uf-text">
+            <div class="uf-title">🧴 Eigen haarproductlijn</div>
+            <div class="uf-desc">FWZCuts producten — speciaal samengesteld voor de stijlen die ik zet. Van pomade tot beard oil.</div>
+          </div>
+        </div>
+        <div class="uf-item">
+          <div class="uf-dot"></div>
+          <div class="uf-text">
+            <div class="uf-title">👟 Focus op jongeren & stijl</div>
+            <div class="uf-desc">FWZCuts is meer dan een kapper — het is een merk. Stijl, zelfvertrouwen en cultuur in één.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="uniek-visual">
+      <div class="uv-big">FWZ</div>
+      <div class="uv-label">The brand is growing</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT / BOEK -->
+<section class="contact reveal" id="contact">
+  <div class="contact-inner">
+    <div>
+      <p class="section-eyebrow" style="color:rgba(255,255,255,0.6)">Afspraak maken</p>
+      <h2>Boek jouw<br>knipbeurt</h2>
+      <p class="contact-sub">Wil je een frisse cut? Neem direct contact op via WhatsApp of Instagram DM. Snel reageren = snelle service.</p>
+    </div>
+    <div class="contact-actions">
+      <a href="https://wa.me/" class="contact-btn btn-wa">
+        <span class="cb-icon">💬</span>
+        <span class="cb-text">
+          <span class="cb-label">Stuur een bericht</span>
+          WhatsApp
+        </span>
+      </a>
+      <a href="https://instagram.com/fwzcuts" class="contact-btn btn-ig">
+        <span class="cb-icon">📷</span>
+        <span class="cb-text">
+          <span class="cb-label">Stuur een DM</span>
+          Instagram @fwzcuts
+        </span>
+      </a>
+      <p class="contact-note">⚡ Snel reageren = snelle service</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">FWZCuts</div>
+  <div class="footer-info">
+    <p>📍 Haarlem Noord, Nederland<br>✂ Kapper voor jongeren & mannen<br>📱 @fwzcuts</p>
+    <p class="footer-copy">© 2025 FWZCuts — Meer dan een knipbeurt</p>
+  </div>
+</footer>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}});
+},{threshold:0.1});
+reveals.forEach(r=>obs.observe(r));
+</script>
+</body>
+</html>
